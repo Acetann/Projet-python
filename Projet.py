@@ -1,26 +1,34 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests, json
 import random
+import datetime
+import time
 
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/", methods=['POST', 'GET'])
 def home():
-    Key = "77153ff2-4e4c-4b27-bd27-51151cfd65cd"
+    nombreDeBase = random.randint(1, 20)
 
-    Objet = random.randint(1, 20)
+    price = -1
+    historique = []
+    firsttrytime = -1
+    if request.method == "POST":
+        nombreDeBase = int(request.form["nombredebase"])
+        price = int(request.form["champprix"])
+        historique = json.loads(request.form["historique"])
+        historique.append(price)
+        firsttrytime = float(request.form["firsttrytime"])
+        if firsttrytime == -1:
+            firsttrytime = time.time()
 
-    url = "https://api.cdiscount.com/OpenApi/json/Search"
     params = {
-        "ApiKey": Key,
+        "ApiKey": "77153ff2-4e4c-4b27-bd27-51151cfd65cd",
         "SearchRequest": {
-            "Keyword": "tv",
+            "Keyword": "ecran",
             "Pagination": {
-                "ItemsPerPage": Objet,
+                "ItemsPerPage": nombreDeBase,
                 "PageNumber": 1
             },
             "Filters": {
@@ -28,17 +36,25 @@ def home():
                     "Min": 0,
                     "Max": 0
                 },
-                "Navigation": "tv",
+                "Navigation": "",
                 "IncludeMarketPlace": "false"
             }
         }
     }
 
-    r = requests.post(url, data=json.dumps(params))
-    var = (r.json()['Products'][0]['Name'])
-    vari = (r.json()['Products'][0]['BestOffer']['SalePrice'])
+    url = "https://api.cdiscount.com/OpenApi/json/Search"
 
-    return render_template("hello.html", Bolosse=var, Tagueule=vari)
+    r = requests.post(url, data=json.dumps(params))
+    nom = (r.json()['Products'][0]['Name'])
+    prix = int(float(r.json()['Products'][0]['BestOffer']['SalePrice']))
+    image = (r.json()['Products'][0]['MainImageUrl'])
+
+    tempstotal = None
+    if request.method == "POST":
+        tempstotal = datetime.datetime.now() - datetime.datetime.fromtimestamp(firsttrytime)
+
+    return render_template("hello.html", NOM=nom, PRIX=prix, IMAGE=image, PRICE=price, NOMBREDEBASE=nombreDeBase,
+                           HISTORIQUE=historique, FIRSTTRYTIME=firsttrytime, TEMPSTOTAL=tempstotal)
 
 
 if __name__ == "__main__":
