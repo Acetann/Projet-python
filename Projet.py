@@ -10,9 +10,9 @@ app = Flask(__name__)
 @app.route("/", methods=['POST', 'GET'])
 def home():
     Key = "77153ff2-4e4c-4b27-bd27-51151cfd65cd"
-    Article = random.randint(1, 50)
 
-    Prix = -1
+    Article = random.randint(1, 20)
+    Prix = 0
     tentative = []
     tempsdepart = -1
     if request.method == "POST":
@@ -27,7 +27,7 @@ def home():
     params = {
         "ApiKey": Key,
         "SearchRequest": {
-            "Keyword": "food",
+            "Keyword": "tv",
             "Pagination": {
                 "ItemsPerPage": Article,
                 "PageNumber": 1
@@ -35,7 +35,7 @@ def home():
             "Filters": {
                 "Price": {
                     "Min": 0,
-                    "Max": 0
+                    "Max": 1000
                 },
                 "Navigation": "",
                 "IncludeMarketPlace": "false"
@@ -54,7 +54,7 @@ def home():
     if request.method == "POST":
         temps = datetime.datetime.now() - datetime.datetime.fromtimestamp(tempsdepart)
 
-    return render_template("hello.html", Nomproduit=nomproduit, Prixproduit=prixproduit, Image=image, Prix=Prix,
+    return render_template("index.html", Nomproduit=nomproduit, Prixproduit=prixproduit, Image=image, Prix=Prix,
                            Article=Article,
                            Essai=tentative, TempsDepart=tempsdepart, Temps=temps)
 

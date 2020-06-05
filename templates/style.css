@@ -1,5 +1,8 @@
 body {
     background-color: black;
-    background-image: url("justeprix.jpg") !important;
+    background-image: url("../justeprix.jpg") !important;
 }
 
+h1 {
+    text-align: right;
+}

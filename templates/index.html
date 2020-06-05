@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:https="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Projet-python/css/style.css" type="text/css">
+    <title>Bienvenue sur le FUN</title>
+</head>
+
+<header style="background-image: url(https://chierchia.fr/contents/uploads/python.jpg); background-repeat: no-repeat; color: white">
+    <div>
+        <h1 class="text-right" style="color: black">Le prix approximativement  juste&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+        <h2 class="text-left">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="{{Image}}" class=""></h2>
+    </div>
+</header>
+<body class="text-center">
+
+<!-- Message quand tu as trouvé le bon prix  avec le temps que tu as mis-->
+{%if Prix == Prixproduit %}
+<p class="font-weight-bold">Comment tu as fais ?? Je suis satisfait de ta performance <br>
+    Tu as mis {{Temps.seconds}} secondes. Allez retente ta chance tu peux mieux faire !
+</p>
+<!-- Bouton quand le prix a été trouvé -->
+<form action="/" method="get">
+    <input class="btn btn-success" type="submit" value="Try Again"/>
+</form>
+{%else%}
+
+<!-- Formulaire avec l'envoi des tentatives -->
+<div class="input-group mb-3">
+<form action="/" method="post">
+    <input type="hidden" name="Article" value="{{Article}}"/>
+    <input class=" form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" type="number" name="Prix" id="champprix" value="Insère le prix ici !!"/>
+    <input type="hidden" name="essai" value="{{Essai}}"/>
+    <input type="hidden" name="tempstotal" value="{{TempsDepart}}"/>
+    <input class="btn btn-success" type="submit" id="envoyer" value="Tentative"/>
+</form>
+</div>
+<!-- Mini Algo pour indiquer si le prix est plus grand ou trop petit -->
+<div style="background-image: url(https://www.alterezvous.be/Portals/alterezvous/OpenContent/Files/611/justeprix.jpg);background-repeat: no-repeat;">
+{%if Prix != 0 %}
+{%if Prix > Prixproduit%}
+<h3 class="font-weight-bold">Tu as cru que je roulais sur l'or ? C'est moins !</h3>
+{%else%}
+<h3 class="font-weight-bold">Allez fais pas ton radin, c'est beaucoup plus </h3>
+
+{%endif%}
+{%endif%}
+{%endif%}
+
+<!-- Algo qui montre le nombre d'essai jusqu'à réussir -->
+
+{%if Prix != 0 %}
+
+<tr>
+    {%for ValeurEssai in Essai %}
+    <td>Tu as essayé {{ValeurEssai}}</td><br>
+    {%endfor%}
+    <td>Temps depuis ton premier essai : {{Temps.seconds}} seconde(s)</td>
+</tr>
+{%endif%}
+</div>
+</body>
+</html>
+
+
