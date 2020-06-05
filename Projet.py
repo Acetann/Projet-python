@@ -10,33 +10,7 @@ app = Flask(__name__)
 @app.route("/", methods=['POST', 'GET'])
 def home():
     # Permet de prendre un objet random de l'API
-    Article = random.randint(2, 40)
-
-    # Récupère l'API grâce à la clé fourni
-    Key = "77153ff2-4e4c-4b27-bd27-51151cfd65cd"
-
-    # Les paramètres qu'on aura besoin pour afficher les articles et les récupérer
-    params = {
-        "ApiKey": Key,
-        "SearchRequest": {
-            "Keyword": "tv",
-            "Pagination": {
-                "ItemsPerPage": Article,
-                "PageNumber": 1
-            },
-            "Filters": {
-                "Price": {
-                    "Min": 0,
-                    "Max": 1000
-                },
-                "Navigation": "",
-                "IncludeMarketPlace": "false"
-            }
-        }
-    }
-
-    # L'URL du site de CDiscount
-    url = "https://api.cdiscount.com/OpenApi/json/Search"
+    Article = random.randint(1, 50)
 
     # On fixe une variable qui sera le prix qu'on tape pour trouver le bon prix
     Prix = 0
@@ -56,9 +30,35 @@ def home():
         tentative.append(Prix)
         tempsdepart = float(request.form["tempstotal"])
 
-    # Si le temps de départ est strictement égale à -1 alors le decompte peut se lancer
+        # Si le temps de départ est strictement égale à -1 alors le decompte peut se lancer
         if tempsdepart == -1:
             tempsdepart = time.time()
+
+    # L'URL du site de CDiscount
+    url = "https://api.cdiscount.com/OpenApi/json/Search"
+
+    # Récupère l'API grâce à la clé fourni
+    Key = "77153ff2-4e4c-4b27-bd27-51151cfd65cd"
+
+    # Les paramètres qu'on aura besoin pour afficher les articles et les récupérer
+    params = {
+        "ApiKey": Key,
+        "SearchRequest": {
+            "Keyword": "tv",
+            "Pagination": {
+                "ItemsPerPage": Article,
+                "PageNumber": 1
+            },
+            "Filters": {
+                "Price": {
+                    "Min": 0,
+                    "Max": 0
+                },
+                "Navigation": "",
+                "IncludeMarketPlace": "false"
+            }
+        }
+    }
 
     # Il va récupérer sous format JSON, les paramètres prédéfini dans la variable params pour ensuite potentiellement
     # les afficher si on le souhaite
