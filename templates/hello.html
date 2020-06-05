@@ -3,49 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Juste Prix</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+	<title>Bienvenue sur le FUN</title>
 </head>
-<body>
-        <h1>JUSTEPRIX</h1>
-        <p>Voici notre produit préféré : {{NOM}} <img src="{{IMAGE}}"> </p>
+<body class="text-center" style="background-color:aqua;">
+        <h1>Le prix juste approximativement</h1>
+        <h2>Tu es tellement mauvais que tu trouveras jamais le prix: <img src="{{Image}}"> </h2>
 
-
-{%if PRICE == PRIX %}
-    <p>VOUS AVEZ GAGNE <br>
-    {{TEMPSTOTAL.seconds}}
+<!-- Message quand tu as trouvé le bon prix  avec le temps que tu as mis-->
+{%if Prix == Prixproduit %}
+    <p class="font-weight-bold">Comment tu as fais ?? Je suis satisfait de ta performance <br>
+    Tu as mis {{Temps.seconds}} secondes. Allez retente ta chance tu peux mieux faire !
     </p>
-
+<!-- Bouton quand le prix a été trouvé -->
     <form action="/" method="get">
-        <input type="submit" value="recommencer"/>
+        <input class="btn btn-success" type="submit" value="Try Again"/>
     </form>
 {%else%}
+
+   <!-- Formulaire avec l'envoi des tentatives -->
         <form action="/" method="post">
-            <p>Essaie de trouver le prix</p>
-            <input type="hidden" name="nombredebase" value="{{NOMBREDEBASE}}"/>
-            <input type="number" name="champprix" id="champprix"/>
-            <input type="hidden" name="historique" value="{{HISTORIQUE}}"/>
-            <input type="hidden" name="firsttrytime" value="{{FIRSTTRYTIME}}"/>
-            <input type="submit" id="envoyer"/>
+            <p class="font-weight-bold">Tente ta chance si tu l'oses</p>
+            <input type="hidden" name="Article" value="{{Article}}"/>
+            <input class="center-block btn btn-danger" type="number" name="Prix" id="champprix"/>
+            <input  type="hidden" name="essai" value="{{Essai}}"/>
+            <input type="hidden" name="tempstotal" value="{{TempsDepart}}"/>
+            <input class="btn btn-success" type="submit" id="envoyer" value="Tentative"/>
 
         </form>
-    {%if PRICE != -1 %}
 
-        {%if PRICE > PRIX%}
-            <p>Le prix est trop grand</p>
+     <!-- Mini Algo pour indiquer si le prix est plus grand ou trop petit -->
+    {%if Prix != -1 %}
+        {%if Prix > Prixproduit%}
+            <h3 class="font-weight-bold">Tu as cru que je roulais sur l'or ? C'est moins !</h3>
         {%else%}
-            <p>Le prix est trop petit</p>
+            <h3 class="font-weight-bold">Allez fais pas ton radin, c'est beaucoup plus </h3>
 
         {%endif%}
     {%endif%}
 {%endif%}
 
-{%if PRICE != -1 %}
-<h2>Précédentes tentatives:</h2>
-<ul>
-    {%for currentvalue in HISTORIQUE %}
-        <li>{{currentvalue}}</li>
+ <!-- Algo qui montre le nombre d'essai jusqu'à réussir -->
+
+{%if Prix != -1 %}
+<h2 class="font-weight-bold">Prix déjà donné:</h2>
+<tr>
+    {%for ValeurEssai in Essai %}
+        <td>{{ValeurEssai}}</td>
     {%endfor%}
-</ul>
+</tr>
 {%endif%}
 
 </body>
